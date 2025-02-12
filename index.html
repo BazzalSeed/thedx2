@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dx2 | Coming Soon</title>
+    <style>
+        /* RESET (Simple) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* BODY SETUP */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background: #f9fbfd;
+            color: #333;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-x: hidden;
+            /* so floating bubbles don't trigger horizontal scroll */
+        }
+
+        /* HEADER */
+        header {
+            width: 100%;
+            height: 220px;
+            position: relative;
+            z-index: 0;
+            animation: fadeInDown 1.2s ease forwards;
+            opacity: 0;
+        }
+
+        /* WAVE BACKGROUND AT TOP */
+        .wave-container {
+            position: absolute;
+            bottom: -1px;
+            /* overlaps main body slightly */
+            width: 100%;
+            line-height: 0;
+            z-index: 1;
+        }
+
+        /* We use an SVG wave. fill color matches #f9fbfd background to blend into body. */
+        .wave-container svg {
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 80px;
+        }
+
+        .wave-container .shape-fill {
+            fill: #f9fbfd;
+        }
+
+        /* LOGO */
+        .logo-wrapper {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            display: inline-flex;
+            text-decoration: none;
+            color: #1d4ed8;
+            align-items: center;
+        }
+
+        .logo svg {
+            width: 60px;
+            height: 60px;
+            /* optional subtle hover effect */
+            transition: transform 0.3s;
+        }
+
+        .logo svg:hover {
+            transform: rotate(10deg) scale(1.05);
+        }
+
+        /* MAIN CONTENT AREA */
+        main {
+            position: relative;
+            /* for bubble layering */
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto 3rem auto;
+            text-align: center;
+            animation: fadeIn 1.5s ease forwards;
+            opacity: 0;
+            padding: 0 1rem;
+            z-index: 2;
+            /* above any floating bubbles */
+        }
+
+        .coming-soon {
+            display: inline-block;
+            background: #bfdbfe;
+            /* lighter blue background */
+            color: #1d4ed8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #1d4ed8;
+            /* main blue */
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            font-weight: normal;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+
+        .shopify-badge {
+            margin: 1rem 0;
+            font-style: italic;
+            color: #1d4ed8;
+        }
+
+        /* SIGN-UP FORM */
+        form {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            max-width: 300px;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input[type="email"]:focus {
+            border: 1px solid #1d4ed8;
+        }
+
+        button[type="submit"] {
+            background: #1d4ed8;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background: #1e40af;
+            /* darker hover effect */
+        }
+
+        /* BUBBLES (floating background circles) */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: floatBubble 10s infinite ease-in;
+            z-index: 0;
+        }
+
+        .x1 {
+            background: #3b82f6;
+            width: 100px;
+            height: 100px;
+            bottom: -100px;
+            left: 10%;
+            animation-delay: 1s;
+        }
+
+        .x2 {
+            background: #60a5fa;
+            width: 60px;
+            height: 60px;
+            bottom: -60px;
+            left: 30%;
+            animation-delay: 3s;
+        }
+
+        .x3 {
+            background: #93c5fd;
+            width: 80px;
+            height: 80px;
+            bottom: -80px;
+            left: 60%;
+            animation-delay: 2s;
+        }
+
+        .x4 {
+            background: #1d4ed8;
+            width: 120px;
+            height: 120px;
+            bottom: -120px;
+            left: 80%;
+            animation-delay: 4s;
+        }
+
+        @keyframes floatBubble {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-300px) scale(1.1);
+            }
+
+            100% {
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: auto;
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #999;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+        }
+
+        /* KEYFRAMES FOR FADE‐IN ANIMATIONS */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1rem;
+            }
+
+            header {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- FLOATING BUBBLES (BEHIND MAIN CONTENT) -->
+    <div class="bubble x1"></div>
+    <div class="bubble x2"></div>
+    <div class="bubble x3"></div>
+    <div class="bubble x4"></div>
+
+    <!-- HEADER WITH WAVE BACKGROUND & SINGLE LOGO -->
+    <header>
+        <div class="logo-wrapper">
+            <a href="#" class="logo" aria-label="Dx2 logo">
+                <!-- Single inline SVG for the circle and “Dx2” text -->
+                <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="25" cy="25" r="25" fill="#1d4ed8" />
+                    <text x="50%" y="55%" text-anchor="middle" fill="#fff" font-size="20" font-family="Arial"
+                        dy=".3em">Dx2</text>
+                </svg>
+            </a>
+        </div>
+        <!-- WAVE SHAPE AT BOTTOM OF HEADER -->
+        <div class="wave-container">
+            <svg viewBox="0 0 500 150" preserveAspectRatio="none" aria-hidden="true">
+                <path class="shape-fill"
+                    d="M0.00,49.98 C150.00,150.00 350.00,-50.00 500.00,49.98 L500.00,0.00 L0.00,0.00 Z"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="coming-soon">Coming Soon</div>
+        <h1>Dedicated Sales Experience for Every Visitor</h1>
+        <h2>
+            We’re building a personalized sales “assistant” that greets
+            and converts more of your site’s traffic.
+        </h2>
+        <p class="shopify-badge">Shopify integration coming soon!</p>
+
+        <form action="#" method="POST">
+            <label for="email">Sign up for early access</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required />
+            <button type="submit">Notify Me</button>
+        </form>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        &copy; <span id="year"></span> Dx2. All rights reserved.
+    </footer>
+
+    <script>
+        // Update footer year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Placeholder form submission handling
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById('email').value;
+            alert(`Thanks for signing up! We'll let you know when we launch, ${emailInput}.`);
+            document.getElementById('email').value = '';
+        });
+    </script>
+</body>
+
+</html>
